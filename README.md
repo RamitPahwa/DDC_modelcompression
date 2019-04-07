@@ -3,7 +3,7 @@
 ```
 https://github.com/RamitPahwa/DDC_modelcompression.git 
 ```
-#Directory Structure 
+## Directory Structure 
 '''
 DDC_modelcompression/
 ├── DDC
