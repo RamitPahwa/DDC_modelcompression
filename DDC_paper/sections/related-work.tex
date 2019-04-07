@@ -1,34 +1,37 @@
 \documentclass[../main]{subfiles}
 \begin{document}
 \section{Related Work}
-We briefly discuss approaches published in literature that address the problem of compressing a known architecture to realistic sizes.
-There are mainly three such approaches, \viz~pruning, knowledge distillation, and architecture search.
+    \label{sec:related}
+    Reducing the depth of the networks \cite{iandola2016squeezenet} and utilizing less expensive operations, such as depth-wise convolutions~\cite{howard2017mobilenets} and group convolutions \cite{cheng2017survey} had gained momentum primarily due to their compactness and ease of deployment to restricted environment.
+    These structures are special and hand designed.
+    These networks have been almost entirely superseded by Architecture Search \cite{zoph2017learning, jin2018efficient} and Compression \cite{tan2018mnasnet,he2018amc}.
+    In this section, we discuss the previous approaches that address the problem of compressing a given network architecture to smaller networks.
+    There are mainly three such approaches, \viz~pruning, knowledge distillation, and architecture search.
+    
+    The pruning approach \cite{lecun1990optimal,srinivas2015data,guo2016dynamic,anwar2017structured} removes the neural network weights that contribute very little towards the performance of the model.
+    A known issue with pruning is that it can over compress and damage the network beyond repair \cite{molchanov2016pruning}.
+    Further, there are very few human controls in the pruning method.
+    In other words, metrics of interest like inference latency, accuracy and compression ratio cannot be directly optimized.
+    %Our approach has the flexibility of incorporating target specific thresholds during compression.
+    
+    The knowledge distillation approach \cite{hinton2015distilling,romero2014fitnets,ba2014deep} trains a smaller network architecture (student) by utilizing the outputs of the original network (teacher).
+    % The work by \cite{hinton2015distilling} generalized the idea of utilizing the teacher outputs and the training data, to produce smaller networks having comparable accuracy.
+    % While \cite{romero2014fitnets} utilizes hint weight training to compress the network.
+    However, this approach is limited by the need to devise the student architecture.
 
-The pruning approach \citep{lecun1990optimal,srinivas2015data,guo2016dynamic,anwar2017structured} removes the neural network weights that contribute very little towards the performance of the model.
-A known issue with pruning is that it can over compress and damage the network beyond repair \citep{molchanov2016pruning}.
-Further, there are very few human controls in the pruning method.
-Traded-off metrics of interest like inference latency, accuracy and compression ratio cannot be jointly and directly controlled.
-Our approach has the flexibility of incorporating target specific thresholds during compression.
+    Given a neural network, the architecture search approach involves searching for a smaller architecture (student) in the teacher architecture space that can display performance close to the original neural network.
+    In general, brute force search through smaller architectures is computationally expensive.
+    Recently, more principled search methods based on RL have been proposed \cite{zoph2016neural,baker2016designing}.
+    Furthermore, design of structured search spaces for good architectures has been undertaken using RL~\cite{zoph2017learning} and using evolutionary algorithms \cite{real2018regularized,real2017large}.
+    More recently, Bayesian optimization has been proposed for hyper-parameter tuning~\cite{jin2018efficient}.
+    This system (called Auto-Keras) also searches architecture from scratch. Searching an architecture \cite{zoph2017learning,tan2018mnasnet} from scratch has its limitation as it takes unrealistic time to search an optimal architecture for large datasets.
+    These methods are limited when considering metrics that need to be controlled when deploying to resource constrained devices.
+    Some of these restrictions have been recently incorporated in the architecture search space design \cite{tan2018mnasnet,elsken2018multi,cheng2018searching,ashok2017n2n} to control the trade-off between performance and architectural complexity.
+    For example, the N2N compression approach \cite{ashok2017n2n} restricts the student architecture search space to that of the original model's architecture.
+    We build on \cite{ashok2017n2n} by incorporating inference time as a metric in the reward function and introduce \textit{thresholded} reward functions to compress down from teacher architecture.
+    This is computationally less expensive than the approach that works around the premise of incorporating inference latency while searching for an optimal architecture from scratch \cite{tan2018mnasnet}.
+    A comparison of the features of different RL based methods for architecture search is provided in \tablename~\ref{tab:methods-comparison}.
+    \subfile{../tables/comparision}
 
-The knowledge distillation approach trains a smaller network architecture by utilizing the outputs of the original network \citep{hinton2015distilling,romero2014fitnets,ba2014deep}.
-% The work by \citet{hinton2015distilling} generalized the idea of utilizing the teacher outputs and the training data, to produce smaller networks having comparable accuracy.
-% While \citep{romero2014fitnets} utilizes hint weight training to compress the network.
-In their original form, the knowledge distillation approaches are limited by the need to hand-craft the student architecture.
-We address the architecture search piece of the puzzle.
-
-Given a neural network, the \emph{architecture search} approach involves searching for a smaller architecture (student) that can display performance close to the original neural network (teacher).
-In general, brute force search through smaller architectures is computationally expensive.
-A more principled search method based on reinforcement learning was proposed by \citet{zoph2016neural,baker2016designing}.
-Further, design of structured search spaces for good architectures has been undertaken by \citet{zoph2017learning} using reinforcement learning and by \citet{real2018regularized,real2017large} using evolutionary algorithms.
-These methods are limited when considering metrics that are needed to be controlled when deploying to mobile devices.
-Some of these restrictions have been recently incorporated in the architecture search space design \citep{tan2018mnasnet,elsken2018multi,cheng2018searching,ashok2017n2n} to control the trade-off between performance and architectural complexity.
-For example, the N2N compression approach of \citet{ashok2017n2n} assumes that the teacher model contains the necessary information for the task at hand and restricts the student architecture search space to that of the teacher.
-We build on \citet{ashok2017n2n} by incorporating inference time as a metric in the reward function.
-This is in contrast to and less computationally expensive than the approach in \citet{tan2018mnasnet} that works around the premise of incorporating inference latency while searching for an optimal architecture from scratch.
-
-
-\bibsubfile
-{plainnat}
-{bibs/sub}
-
+\bibsubfile{named}{bibs/sub}
 \end{document}

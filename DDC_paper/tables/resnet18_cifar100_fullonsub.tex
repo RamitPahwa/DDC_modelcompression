@@ -1,0 +1,39 @@
+\documentclass[../main]{subfiles}
+\begin{document}
+    \getlength{\lvehicleX}{vehicles-1}
+    \getlength{\lpolicy}{Policy}
+    \getlength{\lacc}{0.999}
+    \getlength{\lcomp}{0.999}
+    \getlength{\ltime}{Inf.~Time (sec)}
+    \begin{table}[t]
+        \centering
+        \caption{ResNet18 AMS Trade-off of DDC on full vs partial CIFAR100 dataset}
+        \begin{tabu} spread 0pt{@{\extracolsep{2pt}}X[\lvehicleX,l] X[\lpolicy,l] X[\lacc,r] X[\lcomp,r] X[\ltime,r]}
+            \toprule
+            Subset                      & Policy    & Acc.  & Comp. & Inf.~Time (sec)   \\
+            \midrule
+            \multirow{2}*{fruits}       & Full      & 0.64  & 4.34x & 0.12  \\
+                                        & Sub       & \textbf{0.73}  & \textbf{6.3x} & \textbf{0.096} \\
+            \midrule
+            \multirow{2}*{insects}      & Full      & 0.61  & \textbf{4.3x} & 0.12  \\
+                                        & Sub       & \textbf{0.67}  & 3.3x & \textbf{0.087} \\
+            \midrule
+            \multirow{2}*{people}       & Full      & 0.36  & 4.3x & 0.11  \\
+                                        & Sub       & \textbf{0.388} & \textbf{6.3x} & \textbf{0.064} \\
+            \midrule
+            \multirow{2}*{reptiles}     & Full      & 0.32  & 4.3x & 0.11  \\
+                                        & Sub       & \textbf{0.556} & \textbf{4.7x} & \textbf{0.069} \\
+            \midrule
+            \multirow{2}*{trees}        & Full      & 0.57  & \textbf{4.3x} & 0.11  \\
+                                        & Sub       & \textbf{0.606} & 3.4x & \textbf{0.099} \\
+            \midrule
+            \multirow{2}*{vehicles-1}   & Full      & \textbf{0.67}  & \textbf{4.3x} & 0.13  \\
+                                        & Sub       & 0.664 & 2.3x & \textbf{0.079} \\
+            \midrule
+            \multirow{2}*{vehicles-2}   & Full      & 0.57  & 4.3x & 0.13  \\
+                                        & Sub       & \textbf{0.765} & \textbf{6.3x}  & \textbf{0.064} \\
+            \bottomrule
+        \end{tabu}
+        \label{tab:resnet18-cifar100-fulltosub}
+    \end{table}
+\end{document}

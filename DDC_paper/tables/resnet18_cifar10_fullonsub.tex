@@ -1,0 +1,24 @@
+\documentclass[../main]{subfiles}
+\begin{document}
+    \getlength{\lvehicle}{vehicles}
+    \getlength{\lpolicy}{Policy}
+    \getlength{\lacc}{0.999}
+    \getlength{\lcomp}{0.999}
+    \getlength{\ltime}{Inf.~Time (sec)}
+    \begin{table}[t]
+        \centering
+        \caption{ResNet18 AMS Trade-off of DDC on full vs partial CIFAR10 dataset}
+        \begin{tabu} spread 0pt{@{\extracolsep{2pt}}X[\lvehicle,l] X[\lpolicy,l] X[\lacc,r] X[\lcomp,r] X[\ltime,r]}
+            \toprule
+            Subset                          & Policy    & Acc.          & Comp.         & Inf.~Time (sec)   \\
+            \midrule
+            \multirow{2}*{animals}          & Full      & 0.79          & \textbf{5.7x} & 0.99              \\
+                                            & Sub       & \textbf{0.815}& 4.14x         & \textbf{0.913}    \\
+            \midrule
+            \multirow{2}*{vehicles$_{10}$}  & Full      & 0.85          & 5.71x         & 0.703             \\
+                                            & Sub       & \textbf{0.89} & \textbf{5.89x}& \textbf{0.549}    \\
+            \bottomrule
+        \end{tabu}
+        \label{tab:resnet18-cifar10-fulltosub}
+    \end{table}
+\end{document}

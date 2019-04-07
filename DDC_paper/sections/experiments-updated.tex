@@ -1,0 +1,149 @@
+\documentclass[../main]{subfiles}
+\begin{document}
+\section{Experimental Results}
+    \label{sec:expts}
+    We explain the relevant details of the experimental setup below.
+    In the spirit of reproducibility, we have made all datasets, implementations for experiments, and results available\footnote{\url{http://bit.ly/2BTduY5}}.
+    
+    % We compare our proposed reinforcement method with heuristic based pruning \cite{molchanov2016pruning,lecun1990optimal}, Knowledge distillation \cite{hinton2015distilling} and Bayesian Optimization \cite{jin2018efficient} in Section-\ref{sec:baselines}.
+    % In section-\ref{sec:subset} we demonstrate the need for subset based compression.
+    % In section-\ref{sec:poltrans} we propose and evaluate policy transfer as an approach to scale our compression algorithm to execute within a reasonable amount of time for large scale deployments.
+    % We also empirically demonstrate the effect of policy transfer amongst dataset in  Section-\ref{sec:poltrans}.
+    
+    \subsection{Datasets}
+        \label{sec:datasets}
+        We use the CIFAR-10 and CIFAR-100~\cite{krizhevsky2009learning} datasets for our experiments.
+        Both these datasets have 50,000 training images and 10,000 test images of size 32x32.
+        They diff in the number of labelled classes, 10 vs 100.
+        We will also work with specific subsets of these datasets (consisting of smaller number of class labels) for some of the experiments.
+        We consider the following subsets:
+        \begin{enumerate}
+            \item   \texttt{Animals}: Subset of CIFAR-10 formed by the class labels \texttt{bird}, \texttt{cat}, \texttt{deer}, \texttt{dog}, \texttt{frog} and \texttt{horse}.
+            \item   \texttt{Vehicles\textsubscript{10}}: Subset of CIFAR-10 formed by the class labels \texttt{airplane}, \texttt{automobile}, \texttt{ship} and \texttt{truck}.
+            \item   For CIFAR-100, we use the superclasses as mentioned in the dataset.
+            We use the superclasses \texttt{Insects}, \texttt{Fruits}, \texttt{Trees}, \texttt{Vehicles-1}, \texttt{Vehicles-2}, \texttt{People}, \texttt{Reptiles}.
+        \end{enumerate}
+        % \subfile{../tables/datasets}
+
+    % Formally, given a model $m$, we define the reward functions for the in terms of the accuracy $\bb{A}$, inference time $\bb{T}$ and compression $\bb{C}$:
+    % \begin{equation}
+    %     R \bb{m} = R_1 \bb{A\bb{m}} + R_2 \bb{T\bb{m}}  + R_3 \bb{C\bb{m}}
+    % \end{equation}
+    % We also incorporate the modified loss function during the training of student architectures described in Section - \ref{sec:KD}.
+    % \begin{equation}
+    % \mathcal{L} = \lambda\cdot\mathcal{L}_{soft} + \bb{1-\lambda}\cdot\mathcal{L}_{hard}
+    % \end{equation}
+    % The results obtained from the changes are tabulated in \tablename~\ref{tab:ResNet18-CIFAR10}.
+
+
+    \subsection{Methods Under Study}
+        \label{sec:baselines}
+        \begin{enumerate}
+            \item   \texttt{Prun}: We compare our method to the popular ranking based pruning method~\cite{molchanov2016pruning}.
+            We remove 512 filters on each iteration of pruning heuristically followed by 10 epochs of fine-tuning to recover the network.
+            \item   \texttt{KD}: Another popular approach for model compression is Knowledge Distillation.
+            It requires a specific student architecture to train.
+            We use a 7 layer deep CNN architecture inspired by the VGG architecture~\cite{simonyan2014very} for the student architecture.
+            \item   \texttt{N2N}: This method systematically finds a compressed optimal architecture by searching within the teacher's architecture~\cite{ashok2017n2n}.
+            The number of reinforcement learning iterations have been fixed at 100.
+            In each iteration, 5 new student architectures are being trained using Knowledge distillation.
+            \item   \texttt{AK}: Auto-Keras \cite{jin2018efficient} is a popular tool for architecture search which uses Bayesian optimization and searches a model from scratch given a dataset.
+            \item   \texttt{DDC}: This is our proposed method.
+        \end{enumerate}
+    
+    \subsection{Implementation details}
+        \label{sec:ID}
+        Our experiments provide evidence towards efficacy of imposing thresholds on reward to improve the architecture search.
+        One important point to note here is that we do not use any proxies for inference time (like FLOPS) but instead we use actual inference time of the model on the system.
+        For the memory footprint, we use number of parameters present in the model.
+        Furthermore for consistency, we use the same teacher models across methods to provide evidence towards efficacy of our system.
+        We use stochastic gradient descent with $momentum = 0.9 $ and $learning rate = 0.001$ for all our experiments.
+        Unless otherwise mentioned the number of reinforcement learning iterations is 100 and in each iteration we sample 5 student architecture according to the RL policy and train each of these student architectures for 20 epochs.
+    
+    \subsection{Compressed Model Search}
+        \label{sec:full-model-search}
+        \subfile{../tables/vgg11-c10}
+        \subfile{../tables/res18-c10}
+        \subfile{../tables/res18-c100}
+        In this set of experiments, we compress VGG11 and RESNET18 models for a good AMS trade-off on the entire dataset.
+        We try all the methods detailed under Section~\ref{sec:baselines}.
+        We consider 3 different combivations of architecture and dataset, \viz~VGG11 with CIFAR10, RESNET18 with CIFAR10, and RESNET18 with CIFAR100.
+        In order to study the effect of soft targets on the AMS trade-off, we also learned the compression policy ($DDC_{ht}$) by training the student architecture with hard targets only during knowledge distillation.
+        The results are in \tablesname~\ref{tab:VGG11-CIFAR10}, \ref{tab:ResNet18-CIFAR10} and~\ref{tab:ResNet18-CIFAR100}.
+        
+        The results indicate that our method is able to find highly compressed models that have low inference time without compromising much on the accuracy.
+        Introduction of inference time as a metric in reward function not only helps the compression policy to find faster models but also helps the policy to achieve a much better accuracy-compression trade-off.
+        In case of VGG11 with CIFAR10,  our method is able to find a compressed model that is 20.8x times smaller than the teacher model with a drop of 6\% accuracy.
+        Also the produced compressed model is 3 times faster that the original model.
+        We see that the accuracy tradeoff of compressed models in case of CIFAR100 is more when compared to models compressed on CIFAR10 dataset.
+        This may be because CIFAR100 is a much harder dataset than CIFAR10.
+        It has 100 classes with fewer samples per class than the CIFAR10 dataset. we also observe that the models produced by auto-keras though have good accuracy, are much larger that the original model thereby making them unusable for the task of model compression.
+        % Our system starts with complex Teacher network and systematically reduced it to compressed architecture using reinforcement learning, this process is inspired by \cite{ashok2017n2n}.
+        % This process is compared to the popular ranking based pruning method \cite{molchanov2016pruning}.
+        % We utilize the same teacher models as starting point and systematically prune the network down, alternating between pruning, which prunes the network on the basis of heuristics and then followed by fine-tuning it for 10 epochs.
+        % The models generated have sub-optimal architectures and exploration of the optimal architectural space.
+        % The heuristic based pruning is compared to our method across architectures on subsets of data to provide evidence towards personalization of complex models to smaller efficient CNN classifiers.
+        % The results are presented in \tablename~\ref{tab:ResNet18-CIFAR10_subset+transfer}.
+    
+        % Another popular approach, when compressing down from a \textit{over-learnt} model is knowledge distillation \cite{hinton2015distilling}.
+        % Our approach utilizes the \textit{dark knowledge} learnt by large teacher model and uses it as signal to better train our student model.
+        % One obvious pit fall to this approach is that you need to fix the student architecture you distill the knowledge into, in contrast to this the proposed method uses reinforcement learning to first find candidate student architecture and then using knowledge distillation to train the student networks.
+        % We then compare the performance our method with popular library Auto-Keras~\cite{jin2018efficient} which searches for architectures from scratch based on Bayesian Optimization.
+        % We found that the library takes almost as time as method to find a architecture which is sub-optimal in performance.
+        % Therefore, restricting the architecture search amongst only popular teacher models can significantly reduce time to search efficient architectures for given dataset.
+    \subsection{Subset based Compression}
+        \label{sec:subset}
+        \subfile{../tables/resnet18_cifar100_fullonsub}
+        \subfile{../tables/resnet18_cifar10_fullonsub}
+        \subfile{../tables/vgg11_cifar10_fulltosub}
+        If high accuracy is needed only on a subset of the class labels, it is possible to imagine that much better inference speed and memory footprints may be possible post-compression.
+        In subset based compression we learn the RL policy by training the student architectures sampled in each RL iteration, only on the desired subsets rather than on the entire dataset.
+        This will enable our compression method to learn subset specific policy that has a better AMS tradeoff when compared to the policy learnt on the entire dataset.
+        
+        Tables~\ref{tab:resnet18-cifar100-fulltosub}, \ref{tab:resnet18-cifar10-fulltosub} and \ref{tab:vgg11-cifar10-fulltosub} compares the performance of the compressed models produced by policies learnt on subsets with the compressed model produced by the policy learnt on the entire dataset.
+        The results indicate that the models produced by the polices learnt on the subsets outperforms the model produced by the policy learned on the entire dataset on all 3 performance metrics for most of the subsets.
+        The enhancement in performance is clearly evident in the case of CIFAR-100 subsets.
+        The policy learns to remove layers of the teacher model who's learned features doesn't help in differentiating samples from the subsets thus, giving a better AMS tradeoff.
+    
+    \subsection{Transfer of Compression Policy}
+    \label{sec:poltrans}
+        The previous experiment demonstrates that subset based model compression helps in achieving a better AMS tradeoff.
+        But datasets for practical applications are often huge with large number of classes.
+        Finding compressed policy for all the subsets of classes will be prohibitive.
+        In terms of concrete numbers, learning a policy for the animals subset of CIFAR-10 using RESNET18 as teacher model takes around 12 hours for DDC.
+        We propose compression policy transfer as a way to scale our algorithm for large scale deployments.
+        In policy transfer, we use the compression policy learnt on the entire dataset to bootstrap the learning of the policy for the subsets.
+        We observed that the compression policy learnt by policy transfer is able to produce compressed models with a good AMS tradeoff in around 20 RL iterations.
+        \subfile{../tables/resnet18_cifar100_pt}
+        \subfile{../tables/resnet18_cifar10_pt}
+        \subfile{../tables/vgg11_cifar10_pt}
+        
+        Tables~\ref{tab:resnet18-cifar100-pt}, \ref{tab:resnet18-cifar10-pt} and \ref{tab:vgg11-cifar10-pt} tabulates the performance of the compressed models produced by policies learnt from scratch and policies learnt from policy transfer after 20 RL iterations.
+        The performance of the policy transfered models after 20 epoch are comparable to policy learnt from scratch models after 100 epoch.
+        % We also wanted to test the generalizability of the policy learned by the controller on different datasets and across different models.
+        % In the real world, datasets are very often very large, leading to prohibitively long times to perform the neural architecture search.
+        % Something we noticed was that in the real world, data is not distributed evenly across people.
+        % Different sets of people have diffenent types of data.
+        % So to test whether the controller truly learnt to compress, we must verify that after training on one dataset, we get similar accuracy on another dataset.
+        % This would mean that the policy learnt on one dataset could be used to bootstrap the learning of the policy on another related dataset.
+        % To test this, we devised an experiment where we split the training dataset into equal sized subsets.
+        % We do not spilt into subsets randomly, but we choose the subsets such that the subsets are drawn from similar distributions.
+        % For example, we divide the cifar 10 dataset into two subsets, one for Animals and one for Vehicles.
+        % We then take the controller learnt on one datset on the other dataset. The results for this experiment are tabulated in \tablename~\ref{tab:ResNet18-CIFAR100}.
+
+        % We train the controller for 100 iterations, and in each iteration we train for 20 epochs.
+        % We do not train till convergence for the sake of time. In all cases, we used the 4th loss function from the top of \tablename~\ref{tab:ResNet18-CIFAR10}. % TODO: Mention exact numbers for droupout, momentum, etc.
+        % In each iteration, we train the model using Knowledge Distillaiton, where the we use the original parent model from which we compress as the teacher model.
+        % The KD loss is a weighted average of the difference between the teacher output and student output, and the student and target output.
+
+        % \subfile{../tables/res18-c10_exp-2+3}
+        % \subfile{../tables/vgg11-c10_exp-2+3}
+        
+        % From the results, we see that the model using the transferred policy performs worse than when the model is learned from scratch.
+        % However, the loss in accuracy is not very great (only about 5\%) and could very well be attributed to the shorter time for which we train our controller.
+        % The models outputted are all the top performing models we get after running our architecture search algorithm.
+        % We also notice that the difference in accuracy between original and swapped controller is much greater for some classes than it is for others.
+        % This might be because the intra-class variance of the selected dataset on which we train is high, and with limited amount of data the classifier performs in acceptable ranges. 
+
+    \bibsubfile{named}{bibs/sub}
+\end{document}

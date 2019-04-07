@@ -1,34 +1,37 @@
 \NeedsTeXFormat{LaTeX2e}[2015/04/23]
-\ProvidesPackage{AuxCommandsICLR}[2018/09/22 class style file]
+\ProvidesPackage{AuxCommandsLNCS}[2018/10/10 class style file]
 
 % Load Auxiliary Packages
-\RequirePackage{amsmath}
-%\RequirePackage{microtype}			% Disabled temporarily
 \RequirePackage{setspace}
 \RequirePackage{xspace}
 \RequirePackage[utf8]{inputenc}
 %\RequirePackage[T1]{fontenc}
 \RequirePackage{xparse}
-%\RequirePackage[normalem]{ulem}	% Disabled temporarily
-%\RequirePackage{mathrsfs}			% Disabled temporarily
+\RequirePackage[normalem]{ulem}
+\RequirePackage{mathrsfs}
 \RequirePackage{mleftright}
 \RequirePackage{amssymb}
-\RequirePackage{bm}
-%\RequirePackage{amsthm}			% Disabled temporarily
-\RequirePackage{enumerate}
-% \begin{enumerate}[({A}1),ref={A\arabic*}] with \pref{label} works with enumitem.sty
-% Use \setlist{leftmargin=*} command after loading with \RequirePackage[shortlabels]{enumitem}
-
-%\RequirePackage{tikz}				% Disabled temporarily
+\RequirePackage{amsmath}
+\RequirePackage{microtype}
+\RequirePackage{url}
 \RequirePackage{graphicx}
 \RequirePackage{xcolor}
-%\RequirePackage{textcomp}			% Disabled temporarily
-%\RequirePackage{caption}			% Disabled temporarily
-%\RequirePackage{comment}
-%\RequirePackage{fancyhdr}			% Loaded by iclr2019_conference.sty
+%\RequirePackage{textcomp}
+\RequirePackage{bm}
+\RequirePackage{tikz}               % Required for \pgfmathsetmacro
+%\RequirePackage{import}
+%\RequirePackage{caption}
+\RequirePackage{subcaption}
+
 \RequirePackage{xpatch}
-% Only use to modify placement rules for standard floats
-%\RequirePackage{float}
+\RequirePackage{cite}
+\RequirePackage{enumerate}
+    % \begin{enumerate}[({A}1),ref={A\arabic*}] with \pref{label} works with enumitem.sty
+    % Use \setlist{leftmargin=*} command after loading with \RequirePackage[shortlabels]{enumitem}
+
+%\RequirePackage{bbm}
+%\RequirePackage{calrsfs}
+%\RequirePackage{upgreek}
 
 \RequirePackage{multirow}
 \RequirePackage{booktabs}
@@ -38,29 +41,27 @@
 \RequirePackage{cases}
 \RequirePackage{mathtools}
 \RequirePackage[text]{esdiff}		% need extra brace pair for expandable arguments like \vec{x}
-%\RequirePackage{cite}				% Disabled temporarily for natbib.sty
-
-%\RequirePackage{calrsfs}			% Disabled temporarily
-%\RequirePackage{upgreek}			% Disabled temporarily
-%\RequirePackage{subcaption}		% Disabled temporarily
 
 \RequirePackage{algorithm}
 %\RequirePackage[noend]{algpseudocode}
 \RequirePackage{algpseudocode}
+\RequirePackage{hyperref}
+\hypersetup
+{
+	colorlinks=true,
+	unicode=true,
+	extension=,
+	pdfstartview=FitBH,
+	final=true
+}
+%\RequirePackage{bookmark}
+
 
 %\RequirePackage{environ}
-%\RequirePackage{natbib}			% Loaded by iclr2019_conference.sty
-\RequirePackage{url}
-\RequirePackage{hyperref}
-%\hypersetup
-%{
-%	colorlinks=true,
-%	unicode=true,
-%	extension=,
-%	pdfstartview=FitBH,
-%	final=true
-%}
-%\RequirePackage{bookmark}			% Disabled temporarily
+%\RequirePackage{natbib}
+%\RequirePackage{float}
+%\RequirePackage{comment}
+%\RequirePackage{fancyhdr}
 
 
 % Setting global parameters and aliases
@@ -70,7 +71,20 @@
 \else
 	\setlength{\figwidth}{0.5\textwidth}
 \fi
-\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+\ifpdf
+	\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+	\graphicspath{{Figures/pdf/}{Figures/png/}{Figures/jpg/}}
+\else
+	\DeclareGraphicsExtensions{.eps}
+	\graphicspath{{Figures/eps/}}
+\fi
+
+% To extract lengths for use with tabu environment
+\newlength{\tmp}
+\newcommand*{\getlength}[2]{%
+	\settowidth{\tmp}{#2}
+	\pgfmathsetmacro#1{\tmp}
+}
 
 % For utilizing bibliography when working with subfiles package
 \newcommand*{\bibsubfile}[2]{
@@ -190,41 +204,44 @@
 %\newtheorem{conjecture}{Conjecture}
 %\newtheorem{definition}{Definition}
 \newtheorem{assumption}{Assumption}
+%\spnewtheorem{assumption}{Assumption}
+
 
 % New Theorem Environment Prefixes
-%%%%%%%%NOTE: There are versions of these defined in math_commands.tex file that can be used for referencing.
-% \newcommand{\definitionname}{Definition}
+%\newcommand{\definitionname}{Definition}
 \newcommand{\definitionsname}{Definitions}
-% \newcommand{\theoremname}{Theorem}
+%\newcommand{\theoremname}{Theorem}
 \newcommand{\theoremsname}{Theorems}
-% \newcommand{\lemmaname}{Lemma}
+%\newcommand{\lemmaname}{Lemma}
 \newcommand{\lemmasname}{Lemmas}
-% \newcommand{\remarkname}{Remark}
+%\newcommand{\remarkname}{Remark}
 \newcommand{\remarksname}{Remarks}
-% \newcommand{\corollaryname}{Corollary}
+%\newcommand{\corollaryname}{Corollary}
 \newcommand{\corollariesname}{Corollaries}
-% \newcommand{\propositionname}{Proposition}
+%\newcommand{\propositionname}{Proposition}
 \newcommand{\propositionsname}{Propositions}
-% \newcommand{\conjecturename}{Conjecture}
+%\newcommand{\conjecturename}{Conjecture}
 \newcommand{\conjecturesname}{Conjectures}
-% \newcommand{\problemname}{Problem}
+%\newcommand{\problemname}{Problem}
 \newcommand{\problemsname}{Problems}
 \providecommand*{\sectionname}{Section}
 \newcommand{\secname}{Section}
 \newcommand{\sectionsname}{Sections}
 %\newcommand{\subsectionname}{Subsection}
 \newcommand{\subsectionsname}{Subsections}
+%\providecommand*{\appendixname}{Appendix}
 \newcommand{\appendicesname}{Appendices}
 \newcommand{\algorithmname}{Algorithm}
 \newcommand{\algorithmsname}{Algorithms}
 \newcommand{\figuresname}{Figures}
 \providecommand*{\figurename}{Figure}
 \providecommand*{\tablename}{Table}
-
+\newcommand{\tabname}{Table}
+\newcommand{\tablesname}{Tables}
 
 % Functions on Scalars
-%\NewPairedDelimiter{\floor}{\lfloor}{\rfloor}				% Defined by math_commands.tex
-%\NewPairedDelimiter{\ceil}{\lceil}{\rceil}					% Defined by math_commands.tex
+\NewPairedDelimiter{\floor}{\lfloor}{\rfloor}
+\NewPairedDelimiter{\ceil}{\lceil}{\rceil}
 \NewPairedDelimiter{\abs}{\lvert}{\rvert}
 \NewPrefixPostfixDelimiter{\sgn}{\mathop{\textnormal{sgn}}}{\bb}{}
 
@@ -232,8 +249,8 @@
 \NewPairedDelimiter{\card}{\lvert}{\rvert}
 \newcommand{\comp}{\textnormal{c}}
 \NewPrefixPostfixDelimiter{\spn}{\mathop{\textnormal{Span}}}{\bb}{}
-%\DeclareMathOperator*{\argmax}{arg\,max}					% Defined by math_commands.tex
-%\DeclareMathOperator*{\argmin}{arg\,min}					% Defined by math_commands.tex
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator*{\dsum}{\sum\sum}
 
 % Functions on Vectors and Matrices: Norms
@@ -332,14 +349,11 @@
 \newcommand{\WLOG}{\textit{w.l.o.g.}}
 \newcommand{\whp}{\textit{w.h.p.}}
 \newcommand{\thp}{\text{th}}
-\newcommand{\st}{\text{st}}
-\newcommand{\nd}{\text{nd}}
-%\newcommand{\rd}{\text{rd}}								% Conflict with unrelated command in math_commands.tex
 
 % mainly for shorthand reference to optimization problems and associated values and solutions
 \newcommand{\opt}{\textnormal{opt}}
 \newcommand{\OPT}{\textnormal{OPT}}
-\providecommand*{\eye}{\mathbf{I}}
+\newcommand{\eye}{\mathbf{I}}
 
 % for complicated referencing requirements
 \@ifpackageloaded{hyperref}{
@@ -368,6 +382,15 @@
 	\newcommand{\gtxt}[1]{\textcolor{blue}{#1}}
 	\newcommand{\rtxt}[1]{{\color{red} {#1}}}
 	\newcommand{\rmth}[1]{\mathcolor{red}{#1}}
+}
+
+% math mode color construct
+\def\mathcolor#1#{\@mathcolor{#1}}
+\def\@mathcolor#1#2#3{%
+	\protect\leavevmode
+	\begingroup
+		\color#1{#2}#3%
+	\endgroup
 }
 
 % Math Mode Formatting Commands
@@ -419,7 +442,7 @@
 		& \underset{#1}{\textnormal{minimize}} & & #2 \\
 		& \textnormal{subject to} & & #3
 		\end{aligned}
-		\tag{P\textsubscript{\theproblem}}	#4
+		\tag{P\textsubscript{\theprobctr}}	#4
 	\end{equation}%
 }
 
@@ -430,7 +453,7 @@
 		\begin{aligned}
 		& \underset{#1}{\textnormal{minimize}} & & #2 & \textnormal{subject to} & & #3
 		\end{aligned}
-		\tag{P\textsubscript{\theproblem}}	#4
+		\tag{P\textsubscript{\theprobctr}}	#4
 	\end{equation}%
 }
 
@@ -440,24 +463,24 @@
 
 % To typeset 'find' problem in two lines (default)
 \newcommand{\find}[3]{%
-	\stepcounter{problem}%
+	\stepcounter{probctr}%
 	\begin{equation}
 		\begin{aligned}
 		& \textnormal{find} & & #1 \\
 		& \textnormal{subject to} & & #2
 		\end{aligned}
-		\tag{P\textsubscript{\theproblem}}	#3
+		\tag{P\textsubscript{\theprobctr}}	#3
 	\end{equation}%
 }
 
 % To typeset 'find' problem in a single line
 \newcommand{\findol}[3]{%
-	\stepcounter{problem}%
+	\stepcounter{probctr}%
 	\begin{equation}
 		\begin{aligned}
 		& \textnormal{find} & & #1 & \textnormal{subject to} & & #2
 		\end{aligned}
-		\tag{P\textsubscript{\theproblem}}	#3
+		\tag{P\textsubscript{\theprobctr}}	#3
 	\end{equation}%
 }
 
@@ -472,8 +495,8 @@
 \NewPairedDelimiter{\Bd}{[}{.}
 \NewPairedDelimiter{\dB}{.}{]}
 \NewPairedDelimiter{\aad}{\langle}{\rangle}
-
 \NewPairedDelimiter{\bB}{(}{]}
+
 
 % Standard Sets and Fields
 \newcommand{\setS}[1]{\mathbb{#1}}
@@ -489,10 +512,17 @@
 \newcommand{\setBp}[1][z]{\setB[#1]}
 \newcommand{\setP}{\setF{p}}
 \newcommand{\setA}{\mleft[0,2\pi\mright)}
+\newcommand{\setU}{\mleft[0,1\mright]}
 \newcommand{\setRn}[2]{\setR{}^{#1\times{}#2}}
 
 
 \newcommand*\Let[2]{\State #1 $\gets$ #2}
+
+%\DeclareMathAlphabet{\pazocal}{OMS}{zplm}{m}{n}
+%\newcommand{\La}{\mathcal{l}}
+%\newcommand{\Lb}{\pazocal{l}}
+%\newcommand{\Laa}{\mathcal{L}}
+%\newcommand{\Lbb}{\pazocal{L}}
 
 \NewPrefixPostfixDelimiter{\siml}{\mathop{\textnormal{sim}}}{\bb}{}
 \NewPrefixPostfixDelimiter{\dpr}{\mathop{\textnormal{dp}}}{\bb}{}
@@ -527,39 +557,14 @@
 	\end{aligned}
 }
 
-\newcommand{\setU}{\mleft[0,1\mright]}
-\newcommand{\tablesname}{Tables}
-%\newcommand{\tobs}{t_{\textnormal{obs}}}
-%\newcommand{\tnovel}{\tau_{\textnormal{nov}}}
-%\newcommand{\train}{\textnormal{train}}										% Conflict with related command in math_commands.tex
-%\newcommand{\test}{\textnormal{test}}											% Conflict with related command in math_commands.tex
+\DeclareMathOperator{\Prec}{Prec}
+\DeclareMathOperator{\Rec}{Rec}
+\DeclareMathOperator{\Fone}{F_{1}}
+
+\newcommand{\tobs}{t_{\textnormal{obs}}}
+\newcommand{\tnovel}{\tau_{\textnormal{nov}}}
+\newcommand{\train}{\textnormal{train}}
+\newcommand{\test}{\textnormal{test}}
 \newcommand{\gt}{\textnormal{gt}}
-
-% math mode color construct
-\def\mathcolor#1#{\@mathcolor{#1}}
-\def\@mathcolor#1#2#3{%
-	\protect\leavevmode
-	\begingroup
-		\color#1{#2}#3%
-	\endgroup
-}
-
-\newlength{\tmp}
-\newcommand*{\getlength}[2]{%
-	\settowidth{\tmp}{#2}
-	\pgfmathsetmacro#1{\tmp}
-}
-
-%\newcommand{\sref}[1]{(\hyperref[#1]{S\ref{#1}})}
-
-
-% set font in definitions to roman
-%\let\oldDefinition\Definition
-%\RenewDocumentCommand{\Definition}{o}{%
-%	\IfNoValueTF{#1}
-%	{\oldDefinition}
-%	{\oldDefinition[#1]}%
-%\rm
-%}
 
 \endinput

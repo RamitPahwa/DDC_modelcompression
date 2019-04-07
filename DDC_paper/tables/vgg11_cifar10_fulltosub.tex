@@ -1,0 +1,24 @@
+\documentclass[../main]{subfiles}
+\begin{document}
+    \getlength{\lvehicle}{vehicles}
+    \getlength{\lpolicy}{Policy}
+    \getlength{\lacc}{0.999}
+    \getlength{\lcomp}{0.999}
+    \getlength{\ltime}{Inf.~Time (sec)}
+    \begin{table}[t]
+        \centering
+        \caption{VGG11 AMS Trade-off of DDC on full vs partial CIFAR10 dataset}
+        \begin{tabu} spread 0pt{@{\extracolsep{2pt}}X[\lvehicle,l] X[\lpolicy,l] X[\lacc,r] X[\lcomp,r] X[\ltime,r]}
+            \toprule
+            Subset                          & Policy    & Acc.          & Comp.         & Inf.~Time (sec)   \\
+            \midrule
+            \multirow{2}*{animals}          & Full      & \textbf{0.79} & \textbf{20x}  & 0.862             \\
+                                            & Sub       & \textbf{0.79} & 14.3x         & \textbf{0.75}     \\
+            \midrule
+            \multirow{2}*{vehicles$_{10}$}  & Full      & \textbf{0.9}  & 20x           & 0.623             \\
+                                            & Sub       & 0.87          & \textbf{50x}  & \textbf{0.415}    \\
+            \bottomrule
+        \end{tabu}
+        \label{tab:vgg11-cifar10-fulltosub}
+    \end{table}
+\end{document}

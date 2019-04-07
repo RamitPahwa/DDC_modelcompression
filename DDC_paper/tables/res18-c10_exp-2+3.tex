@@ -1,0 +1,19 @@
+\documentclass[../main]{subfiles}
+\begin{document}
+    \begin{table}[t]
+        \centering
+        \caption{Experimental Summary of Resnet18 on Cifar-10 dataset}
+%        \begin{tabular}{l p{2.3cm} p{2.5cm} p{1.8cm} p{2cm}}
+        \begin{tabular}{l r r r r}
+            \toprule
+            Subset					& Orig.~Acc.	& Comp.~Acc.	& Inf.~Time (sec)	& Comp.	\\
+            \midrule
+            Animals					& 0.813			& 0.813			& 0.386				& 5.23x	\\
+            Vehicles				& 0.837			& 0.938			& 0.503				& 3.33x	\\
+            Vehicles $\to$ Animals	& 0.813			& 0.808			& 0.388				& 5x	\\
+            Animals $\to$ Vehicles	& 0.837			& 0.913			& 0.37				& 6.36x	\\
+            \bottomrule
+        \end{tabular}
+        \label{tab:ResNet18-CIFAR10_subset+transfer}
+    \end{table}
+\end{document}

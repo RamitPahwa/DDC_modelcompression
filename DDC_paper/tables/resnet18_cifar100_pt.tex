@@ -1,0 +1,39 @@
+\documentclass[../main]{subfiles}
+\begin{document}
+    \getlength{\lvehicleX}{vehicles-1}
+    \getlength{\lpolicy}{Transfer}
+    \getlength{\lacc}{0.999}
+    \getlength{\lcomp}{0.999}
+    \getlength{\ltime}{Inf.~Time (sec)}
+    \begin{table}[t]
+        \centering
+        \caption{ResNet18 AMS Trade-off of DDC on policy transfer vs learning from scratch on subsets of CIFAR100 dataset after 20 epochs}
+        \begin{tabu} spread 0pt{@{\extracolsep{2pt}}X[\lvehicleX,l] X[\lpolicy,l] X[\lacc,r] X[\lcomp,r] X[\ltime,r]}
+            \toprule
+            Subset                      & Policy    & Acc.  & Comp. & Inf.~Time (sec)   \\
+            \midrule
+            \multirow{2}*{fruits}       & Transfer  & \textbf{0.748} & \textbf{6.3x} & \textbf{0.062}  \\
+                                        & Scratch   & 0.716 & 4.3x & 0.109  \\
+            \midrule
+            \multirow{2}*{insects}      & Transfer  & 0.646 & \textbf{6.3x} & \textbf{0.063}  \\
+                                        & Scratch   & \textbf{0.66}  & 2x & 0.079  \\
+            \midrule
+            \multirow{2}*{people}       & Transfer  & \textbf{0.393} & \textbf{6.3x} & \textbf{0.066}  \\
+                                        & Scratch   & 0.354 & 4.7x & 0.073  \\
+            \midrule
+            \multirow{2}*{reptiles}     & Transfer  & \textbf{0.566} & \textbf{6.3x} & \textbf{0.065}  \\
+                                        & Scratch   & 0.534 & 2x & 0.081  \\
+            \midrule
+            \multirow{2}*{trees}        & Transfer  & \textbf{0.592} & \textbf{4.7x} & \textbf{0.067}  \\
+                                        & Scratch   & 0.568 & 3.4x & 0.085  \\
+            \midrule
+            \multirow{2}*{vehicles-1}   & Transfer  & \textbf{0.678} & \textbf{4.7x} & \textbf{0.069}  \\
+                                        & Scratch   & 0.62  & 1.7x & 0.089  \\
+            \midrule
+            \multirow{2}*{vehicles-2}   & Transfer  & \textbf{0.79}  & \textbf{6.3x} & \textbf{0.063}  \\
+                                        & Scratch   & 0.714 & 4.3x & 0.083  \\
+            \bottomrule
+        \end{tabu}
+        \label{tab:resnet18-cifar100-pt}
+    \end{table}
+\end{document}

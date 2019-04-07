@@ -1,0 +1,24 @@
+\documentclass[../main]{subfiles}
+\begin{document}
+    \getlength{\lkd}{Knowledge Distillation}
+    \getlength{\lacc}{0.999}
+    \getlength{\lcomp}{0.999}
+    \getlength{\ltime}{Inf.~Time (sec)}
+    \begin{table}[t]
+    	\centering
+    	\caption{Compressed Model Search for ResNet18 on Cifar10}
+    	\begin{tabu} spread 0pt{@{\extracolsep{2pt}}X[\lkd,l] X[\lacc,r] X[\lcomp,r] X[\ltime,r]}
+    		\toprule
+    		Method					& Acc.		    & Comp.	            & Inf.~Time (sec)	\\
+    		\midrule
+    		Original Model			& 0.83			& 1x				& 5.46			\\
+    		Knowledge Distillation	& 0.80			& 1.67x				& 	3.12		\\
+    		Auto-Keras              & 0.93			& 0.40x				& 7.9	\\
+    		N2N						& \textbf{0.81}	& 4.34x				& 1.60			\\
+    		DDC$_{ht}$				& \textbf{0.81}	& 2.56x				& 1.69			\\
+    		DDC						& \textbf{0.81}	& \textbf{5.71}x	& \textbf{1.48}	\\
+    		\bottomrule
+    	\end{tabu}
+    	\label{tab:ResNet18-CIFAR10}
+    \end{table}
+\end{document}

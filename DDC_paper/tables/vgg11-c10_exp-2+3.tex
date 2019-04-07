@@ -1,0 +1,19 @@
+\documentclass[../main]{subfiles}
+\begin{document}    
+    \begin{table}[t]
+        \centering
+        \caption{Experimental Summary of VGG-11 on Cifar-10 dataset}
+%        \begin{tabular}{|c|p{2.3cm}|p{2.5cm}|p{1.8cm}|p{2cm}|}
+        \begin{tabular}{l r r r r}
+        	\toprule
+            Subset					& Orig.~Acc.	& Comp.~Acc.	& Inf.~Time (sec)	& Comp.	\\
+            \midrule
+            Animals					& 0.88			& 0.79			& 0.75				& 14x	\\
+            Vehicles				& 0.94			& 0.87			& 0.41				& 33x	\\
+            Vehicles $\to$ Animals	& 0.88			& 0.79			& 0.68				& 20x	\\
+            Animals $\to$ Vehicles	& 0.94			& 0.95			& 0.45				& 20x	\\
+            \bottomrule
+        \end{tabular}
+        \label{tab:VGG11-CIFAR10_subset+transfer}
+    \end{table}
+\end{document}

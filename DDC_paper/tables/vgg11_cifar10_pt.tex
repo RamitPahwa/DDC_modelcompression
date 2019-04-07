@@ -1,0 +1,24 @@
+\documentclass[../main]{subfiles}
+\begin{document}
+    \getlength{\lvehicle}{vehicles}
+    \getlength{\lpolicy}{Transfer}
+    \getlength{\lacc}{0.999}
+    \getlength{\lcomp}{0.999}
+    \getlength{\ltime}{Inf.~Time (sec)}
+    \begin{table}[t]
+        \centering
+        \caption{VGG11 AMS Trade-off of DDC on policy transfer vs learning from scratch on subsets of CIFAR10 dataset after 20 epochs}
+        \begin{tabu} spread 0pt{@{\extracolsep{2pt}}X[\lvehicle,l] X[\lpolicy,l] X[\lacc,r] X[\lcomp,r] X[\ltime,r]}
+            \toprule
+            Subset                          & Policy    & Acc.          & Comp.             & Inf.~Time (sec)   \\
+            \midrule
+            \multirow{2}*{animals}          & Transfer  & \textbf{0.81} & \textbf{20.83x}   & \textbf{0.69}     \\ 
+                                            & Scratch   & 0.81          & 7.57x             & 0.732             \\ 
+            \midrule
+            \multirow{2}*{vehicles$_{10}$}  & Transfer  & 0.880         & \textbf{43.4x}    & \textbf{0.423}    \\
+                                            & Scratch   & \textbf{0.894}& 7.81x             & 0.425             \\
+            \bottomrule
+        \end{tabu}
+        \label{tab:vgg11-cifar10-pt}
+    \end{table}
+\end{document}

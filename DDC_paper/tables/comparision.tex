@@ -1,0 +1,29 @@
+\documentclass[../main]{subfiles}
+\begin{document}
+    \getlength{\fcol}{Compression Optimization }
+    \getlength{\lnas}{NAS}
+    \getlength{\lamc}{AMC}
+    \getlength{\lnn}{N2N}
+    \getlength{\lmnas}{MnasNet}
+    \getlength{\lddc}{DDC}
+    \begin{table}[t]
+        \centering
+        \caption{Feature Comparison of RL based methods for architecture search.
+        NAS: Neural Architecture Search~\protect\cite{zoph2017learning}, AMC: AutoML for Model Compression~\protect\cite{he2018amc}, N2N: Network to Network Compression~\protect\cite{ashok2017n2n}, MnasNet: Platform-Aware Neural Architecture Search~\protect\cite{tan2018mnasnet}, DDC: Data Driven Compression}
+        % \begin{tabular}{lccccc}
+        \begin{tabu} spread 0pt{@{\extracolsep{2pt}}X[\fcol,l] X[\lnas,c] X[\lamc,c] X[\lnn,c] X[\lmnas,c] X[\lddc,c]}
+            \toprule
+            							& NAS			& AMC			& N2N			& MnasNet		& DDC			\\
+            \midrule
+            Accuracy Optimization		& \checkmark	& \checkmark	& \checkmark	& \checkmark	& \checkmark	\\
+            Compression Optimization	&				&				& \checkmark	&				& \checkmark	\\
+            Latency Optimization		&				& \checkmark	&				& \checkmark	& \checkmark	\\
+            RNN Policy network			& \checkmark	&				& \checkmark	&				& \checkmark	\\
+            Fast exploration on GPU		&				& \checkmark	& \checkmark	& \checkmark	& \checkmark	\\
+            Distillation from Teacher	&				&				& \checkmark	&				& \checkmark	\\
+            \bottomrule
+        % \end{tabular}
+        \end{tabu}
+        \label{tab:methods-comparison}
+    \end{table}
+\end{document}

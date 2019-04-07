@@ -1,0 +1,24 @@
+\documentclass[../main]{subfiles}
+\begin{document}
+    \getlength{\lvehicle}{vehicles}
+    \getlength{\lpolicy}{Transfer}
+    \getlength{\lacc}{0.999}
+    \getlength{\lcomp}{0.999}
+    \getlength{\ltime}{Inf.~Time (sec)}
+    \begin{table}[t]
+        \centering
+        \caption{ResNet18 AMS Trade-off of DDC on policy transfer vs learning from scratch on subsets of CIFAR10 dataset after 20 epochs}
+        \begin{tabu} spread 0pt{@{\extracolsep{2pt}}X[\lvehicle,l] X[\lpolicy,l] X[\lacc,r] X[\lcomp,r] X[\ltime,r]}
+            \toprule
+            Subset                          & Policy    & Acc.          & Comp.         & Inf.~Time (sec)   \\
+            \midrule
+            \multirow{2}*{animals}          & Transfer  & 0.783         & \textbf{6.45x}& \textbf{0.801}    \\ 
+                                            & Scratch   & \textbf{0.829}& 3.5x          & 0.968             \\ 
+            \midrule
+            \multirow{2}*{vehicles$_{10}$}  & Transfer  & 0.888         & \textbf{6.45x}& \textbf{0.496}    \\
+                                            & Scratch   & \textbf{0.896}& 5.8x          & 0.580             \\
+            \bottomrule
+        \end{tabu}
+        \label{tab:resnet18-cifar10-pt}
+    \end{table}
+\end{document}

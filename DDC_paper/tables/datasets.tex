@@ -1,0 +1,22 @@
+\documentclass[../main]{subfiles}
+\begin{document}
+    \getlength{\ldata}{Avg-images per class}
+    \getlength{\lcten}{CIFAR10}
+    \getlength{\lchund}{CIFAR100}
+    \begin{table}
+        \centering
+        \caption{Description of datasets}
+        \begin{tabu} spread 0pt{@{\extracolsep{2pt}}X[\ldata,l] X[\lcten,r] X[\lchund,r]}
+            \toprule
+            Dataset				& CIFAR10	& CIFAR100	\\
+            \midrule
+            Training			& 50000		& 50000		\\
+            Testing				& 10000		& 10000		\\
+            Classes				& 10		& 100		\\
+            Avg-images per class& 5000      & 500		\\
+            Image Size			& 32x32		& 32x32		\\
+            \bottomrule
+        \end{tabu}
+        \label{tab:datasets}
+    \end{table}
+\end{document}

@@ -1,0 +1,43 @@
+\documentclass[../main]{subfiles}
+\begin{document}
+    % \begin{table*}
+    %     \centering
+    %     \caption{Experimental Summary of VGG-11 on Cifar-10 dataset}
+    %     \begin{tabular}{|c|p{1.3cm}|p{2cm}|p{1.8cm}|p{2cm}|}
+    %         \hline
+    %         Description & Original & N2N & Our Reward & Our Reward + Loss\\
+    %         \hline
+    %         Accuracy  & 0.9 & 0.856 & 0.81 & 0.85 \\
+    %         \hline
+    %         Inference Time (Sec) & 2.26  & 1.49 & 1.13 & 1.14 \\
+    %         \hline
+    %         Compression & 1x & 9x & 20x & 14x \\
+    %         \hline 
+    %         Memory (MB) & 36 & 3.9 & 1.8 & 2.5 \\
+    %         \hline
+    %     \end{tabular}
+    %     \label{tab:VGG11-CIFAR10}
+    % \end{table*}
+    
+    % \usepackage{colortbl}
+
+
+\begin{table}[t]
+	\centering
+	\caption{Compressed Model Search for VGG11 on Cifar10}
+	\begin{tabular}{l r r r} 
+		\toprule
+		Method~						& Accuracy~		& Compression~  & Inference Time (Sec)~	\\
+		\midrule
+		Original Model~				& 0.9~			& 1x~			& 3.43~			\\
+		Pruning~					& 0.84~			& 5x~			& 1.96~			\\
+		Knowledge Distillation~		& 0.79~			& 2x~			& 1.13~			\\
+		Auto-Keras                  & 0.93			& 0.33x			& 7.9	\\
+		N2N~						& \textbf{0.85}~& 9x~			& 1.49~			\\
+		DDC$_{ht}$~					& 0.81~			& \textbf{20.8x}& 1.13~		\\
+		DDC~	& 0.84~			& \textbf{20.8x}~& \textbf{1.11}~\\
+		\bottomrule
+	\end{tabular}
+	\label{tab:VGG11-CIFAR10}
+\end{table}
+\end{document}

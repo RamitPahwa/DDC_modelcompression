@@ -1,93 +1,54 @@
-\documentclass[twoside]{article}
+\documentclass[runningheads]{llncs}
 
 \makeatletter
 \providecommand*{\input@path}{}
 \edef\input@path{{styles/}{../styles/}\input@path}
 \makeatother
 
-\usepackage{aistats2019}
-%\usepackage[accepted]{aistats2019}
-% Optional math commands from https://github.com/goodfeli/dlbook_notation.
-\input{math_commands.tex}
-\usepackage{AuxCommandsICLR}
-\usepackage{csvsimple}
-
-\usepackage[round]{natbib}
-\renewcommand{\bibname}{References}
-\renewcommand{\bibsection}{\subsubsection*{\bibname}}
-
-%TODO: try setting \graphicspath{} in preamble for subfiles and within document body for main file.
-\graphicspath{{images/pdf/}{../images/pdf/}{images/tikz/}{../images/tikz/}{images/png/}{../images/png/}}
+\PassOptionsToPackage{table}{xcolor}
+\RequirePackage{ragged2e}
+\usepackage{AuxCommandsLNCS}
 \usepackage{subfiles}
+\renewcommand\UrlFont{\color{blue}\rmfamily}
+
+% Graphics Path and Extensions
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+\graphicspath{{images/pdf/}{../images/pdf/}{images/tikz/}{../images/tikz/}{images/png/}{../images/png/}}
+
+% Title, Authors and Affiliations
+\title{Data-Driven Compression of Convolutional Neural Networks\thanks{All authors were affiliated with Adobe Research during the course of this work.}}
+\titlerunning{Data-Driven Compression of CNNs}
+\author{Ramit~Pahwa\inst{1}, Manoj~Ghuhan~A\inst{2}, Ankur~Garg\inst{3}, Siddarth~Krishnamoorthy\inst{4}, Rohit~Saxena\inst{5}, Sunav~Choudhary\inst{2}}
+\authorrunning{Pahwa, Ghuhan, et al.}
+\institute{Indian Institute of Technology, Kharagpur, India \\
+\email ramitpahwa123@gmail.com
+\and
+Adobe Research, India \\ 
+\email \{ghuhana, schoudha\}@adobe.com
+\and
+The University of Texas at Austin, USA \\ 
+\email ankgarg@cs.utexas.edu
+\and
+Indian Institute of Technology, Kanpur, India \\
+\email siddarrth.k@gmail.com
+\and
+Indian Institute of Technology, Roorkee, India \\
+\email saxenarrohit@gmail.com
+}
 
 
 \begin{document}
-	\twocolumn[
-		\aistatstitle{Data Driven compression of Deep Neural Networks using Reinforcement Learning}
-%		\aistatsauthor{%
-%			Ramit~Pahwa \And
-%			Manoj~Ghuhan~A \And
-%			Siddarth~Krishnamoorthy \And
-%			Rohit~Saxena \And
-%			Ankur~Garg \And
-%			Sunav~Choudhary
-%		}
-%		\aistatsaddress{%
-%			Indian Institute of Technology, Kharagpur \And
-%			Adobe Research \And
-%			University of Texas, Austin
-%		}
-	]
-
-	\runningtitle{Data Driven Compression of DNNs}
-%	\runningauthor{Pahwa, Ghuhan~A, Krishnamoorthy, Saxena, Garg, Choudhary}
-
-%	\author{Ramit~Pahwa \\
-%	Dept.~of Mathematics and Computing\\
-%	Indian Institute of Technology, Kharagpur\\
-%	India\\
-%	\texttt{ramitpahwa123@gmail.com} \\
-%	\And
-%	Siddarth~Krishnamoorthy \\
-%	Dept.~of Computer Science\\
-%	Indian Institute of Technology, Kanpur\\
-%	India\\
-%	\texttt{siddarrth.k@gmail.com} \\
-%	\And
-%	Rohit~Saxena \\
-%	Dept.~of Mathematics and Computing\\
-%	Indian Institute of Technology, Roorkee\\
-%	India\\
-%	\texttt{saxenarrohit@gmail.com} \\
-%	\And
-%	Ankur~Garg \\
-%	Dept.~of Computer Science\\
-%	University of Texas, Austin\\
-%	USA\\
-%	\texttt{ankurgarg101@gmail.com} \\
-%	\And
-%	Manoj~Ghuhan~A \& Sunav~Choudhary \\
-%	Adobe Research\\
-%	Bangalore, India\\
-%	\texttt{\{ghuhana,schoudha\}@adobe.com}
-%	}
-	
+    \maketitle
 	\renewcommand{\bibsubfile}[2]{}
-	
+
 	\subfile{sections/abstract}
 	\subfile{sections/introduction}
 	\subfile{sections/related-work}
-	\subfile{sections/approach}
-	\subfile{sections/experiments}
+    \subfile{sections/approach-updated}
+	\subfile{sections/experiments-updated}
 	\subfile{sections/conclusions}
-
 %	\subfile{sections/acknowledgements}
 
-\bibliographystyle{plainnat}
-\bibliography{bibs/sub}
-
+    \bibliographystyle{splncs04}
+    \bibliography{bibs/sub}
 \end{document}
-
-
-%TODO: Final checks
-% \citet{} vs citep{}

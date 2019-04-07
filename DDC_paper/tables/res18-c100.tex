@@ -1,0 +1,23 @@
+\documentclass[../main]{subfiles}
+\begin{document}
+    \getlength{\lorigmod}{Original Model}
+    \getlength{\lacc}{0.999}
+    \getlength{\lcomp}{0.999}
+    \getlength{\ltime}{Inf.~Time (sec)}
+    \begin{table}[t]
+    	\centering
+    	\caption{Compressed Model Search for ResNet18 on Cifar100}
+    	\begin{tabu} spread 0pt{@{\extracolsep{2pt}}X[\lorigmod,l] X[\lacc,r] X[\lcomp,r] X[\ltime,r]}
+    		\toprule
+    		Method			& Acc.		    & Comp.		    & Inf.~Time (sec)	\\
+    		\midrule
+    		Original Model	& 0.72		    & 1x			& 2.71		\\
+    		Auto-Keras      & 0.68			& 0.40x			& 6.2	\\
+    		N2N				& 0.58		    & 4.1x			& 1.56		\\
+    		DDC$_{ht}$      & \textbf{0.63} & 2.17x			& 1.68		\\
+    		DDC				& 0.56			& \textbf{4.4x}	& \textbf{1.40}	\\
+    		\bottomrule
+    	\end{tabu}
+    	\label{tab:ResNet18-CIFAR100}
+    \end{table}
+\end{document}
