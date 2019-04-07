@@ -4,7 +4,7 @@
 https://github.com/RamitPahwa/DDC_modelcompression.git 
 ```
 ## Directory Structure 
-'''
+```
 DDC_modelcompression/
 ├── DDC
 │   ├── LICENSE
@@ -531,7 +531,7 @@ DDC_modelcompression/
     └── resnet.txt
 
 37 directories, 486 files
-'''
+```
 ## Methods Under Study 
 1. Prunning :We compare our method to the popular ranking based pruning method .
 We remove 512 lters on each iteration of pruning heuristically followed by
